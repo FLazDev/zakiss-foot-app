@@ -35,6 +35,15 @@ local.properties
 !debug.keystore
 .kotlin/
 
+# React Native
+android/.gradle
+android/app/build
+ios/Pods
+*.log
+.env
+.idea/
+.vscode/
+
 # node.js
 #
 node_modules/
