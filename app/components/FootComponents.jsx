@@ -8,30 +8,30 @@ import {
 } from "react-native";
 
 // Carte de rencontre
-export const Meeting = ({ matchData }) => (
+export const Meeting = ({ match }) => (
   <View style={styles.meeting}>
     <View style={styles.equip}>
       <View style={styles.equipLogoBG}>
         <Image
-          source={{ uri: matchData.home_team.logo }}
+          source={{ uri: match.home_team.logo }}
           style={styles.equipLogo}
           resizeMode="contain"
         />
       </View>
-      <Text style={styles.equipName}>{matchData.home_team.name}</Text>
+      <Text style={styles.equipName}>{match.home_team.name}</Text>
     </View>
     <View style={styles.meetingHourCont}>
-      <Text style={styles.meetingHourVal}>{matchData.time}</Text>
+      <Text style={styles.meetingHourVal}>{match.time}</Text>
     </View>
     <View style={styles.equip}>
       <View style={styles.equipLogoBG}>
         <Image
-          source={{ uri: matchData.away_team.logo }}
+          source={{ uri: match.away_team.logo }}
           style={styles.equipLogo}
           resizeMode="contain"
         />
       </View>
-      <Text style={styles.equipName}>{matchData.away_team.name}</Text>
+      <Text style={styles.equipName}>{match.away_team.name}</Text>
     </View>
   </View>
 );

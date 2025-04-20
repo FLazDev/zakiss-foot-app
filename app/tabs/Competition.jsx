@@ -4,13 +4,12 @@ import {
   Text,
   View,
   ScrollView,
-  Image,
   ImageBackground,
   Dimensions,
   SafeAreaView,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";// Pour Initaliser le startValue
-import { HeaderV1_1, FooterV1_1 } from "../components/SvgComponents";
+import { ShapeTemplate, HeaderV1_1, FooterV1_1, Logo, Firefox } from "../components/SvgComponents";
 import { Meeting } from "../components/FootComponents";
 import ViewShot from "react-native-view-shot";
 import Share from "react-native-share";
@@ -22,7 +21,7 @@ const { width, height } = Dimensions.get("window");
 const Competition = forwardRef((props, ref) => {
 
   const startValue = useRoute();// Initialisation du startValue
-  const { league = [], date = "" } = startValue.params || {};// Récupération des données de startValue par destructuration
+  const { matchsList = [], date = "" } = startValue.params || {};// Récupération des données de startValue par destructuration
   const { backgroundImage, imageMap } = useContext(SettingsVarObject);
   const viewShotRef = useRef(null);
 
@@ -56,6 +55,26 @@ const Competition = forwardRef((props, ref) => {
           height: (height * 0.93) * 5
         }}
       >
+        <ShapeTemplate />
+        <ScrollView
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          style={styles.scrollView}
+        >
+          {matchsList.map((page) => (
+            <View style={[styles.carouselPage, { width }]}>
+              {page.map((match) => (
+                <Meeting
+                  key={match_id}
+                  match={match}
+                />
+              ))}
+            </View>
+          ))}
+        </ScrollView>
+
+        {/*
         <ImageBackground
           source={imageMap[backgroundImage]}//{require("../../assets/images/BG.jpg")}
           style={styles.pageBackground}
@@ -68,7 +87,7 @@ const Competition = forwardRef((props, ref) => {
               showsHorizontalScrollIndicator={false}
               style={styles.scrollView}
             >
-              {league.map((comp, index) => (
+              {matchsList.map((comp, index) => (
                 <ImageBackground
                   key={index}
                   source={{ uri: comp.flag }}
@@ -82,7 +101,7 @@ const Competition = forwardRef((props, ref) => {
                     {comp.matches.map((match) => (
                       <Meeting
                         key={`${match.home_team.name}-${match.away_team.name}`}
-                        matchData={match}
+                        match={match}
                       />
                     ))}
                   </View>
@@ -92,6 +111,7 @@ const Competition = forwardRef((props, ref) => {
             <FooterV1_1 width="350" height="74" number1="72077071" number2="06794747"/>
           </View>
         </ImageBackground>
+        */}
       </ViewShot>
     </SafeAreaView>
   );
