@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
-//import { CompetitionCard } from '../components/FootComponents'; // Import de la carte de compétition
 import LinearGradient from 'react-native-linear-gradient';
 import { SettingsVarObject } from './ContextComponent'; // Import du contexte
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -42,15 +41,15 @@ export default function HomePage() {
     Object.values(apiData).forEach((competition) => {
       competition.matches.forEach((match) => {
         if (idList.includes(match.match_id.toString())) {
-          program.push({...match});
+          program.push({ ...match });
         }
       });
     });
 
     // 2️⃣ Découpage en pages de 10 matchs
     const pagesArray = [];
-    for (let i = 0; i < program.length; i += 10) {
-      pagesArray.push(program.slice(i, i + 10));
+    for (let i = 0; i < program.length; i += 6) {
+      pagesArray.push(program.slice(i, i + 6));
     }
 
     // 3️⃣ Navigation vers la page Competition avec les données
@@ -194,8 +193,17 @@ export default function HomePage() {
           <Text style={styles.compDate}>
             Date: {new Date(today).toLocaleDateString('fr-FR', { year: 'numeric', month: '2-digit', day: '2-digit', }).replace(/\//g, '-')}
           </Text>
-          <TouchableOpacity onPress={() => handleMatchesProgram(selectedMatchsIdsList, matchsData)} style={{ padding: 10 }}>
-            <Text style={{ color: 'white' }}>Programmer</Text>
+          <TouchableOpacity 
+            onPress={() => handleMatchesProgram(selectedMatchsIdsList, matchsData)} 
+            style={{ 
+              padding: 10, 
+              backgroundColor: 'rgb(255, 209, 234)', 
+              borderWidth:1,
+              borderColor:'rgb(230, 10, 101)', 
+              borderRadius: 5 
+            }}
+          >
+            <Text style={{ color: 'rgb(187, 0, 78)', fontWeight:'900' }}>AFFICHER</Text>
           </TouchableOpacity>
         </View>
         <ScrollView
@@ -213,8 +221,17 @@ export default function HomePage() {
               Object.values(matchsData).map((comp, index) => (
                 <View styles={{ width: '95%', padding: 5 }} key={index}>
 
-                  <View style={{ borderBottomWidth: 2, width: '100%' }}>
-                    <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'left' }}>{comp.name}</Text>
+                  <View
+                    style={{
+                      borderBottomWidth: 1,
+                      borderTopLeftRadius: 8,
+                      borderTopRightRadius: 8,
+                      borderColor: 'rgba(80, 79, 79, 0.5)',
+                      width: '100%',
+                      backgroundColor: 'rgba(255,255,255,0.5)'
+                    }}
+                  >
+                    <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'left', padding: 6 }}>{comp.name}</Text>
                   </View>
 
                   {comp.matches.map((match) => (
@@ -260,52 +277,6 @@ export default function HomePage() {
             )
           }
         </ScrollView>
-        {/*
-        <ScrollView
-          contentContainerStyle={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            width: width,
-            padding: 5,
-          }}
-        >
-          {matchsData && Object.values(matchsData).length > 0
-            ? (
-              Object.values(matchsData).map((comp, index) => (
-                <CompetitionCard
-                  key={comp.league_id}
-                  data={comp}
-                //onPress={() => handleCompPress(comp)}
-                >
-                  <View style={{ borderBottomWidth: 2, width: '100%' }}>
-                    <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'left' }}>{comp.name}</Text>
-                  </View>
-                  {comp[matches].map((match) => (
-                    <Meeting
-                      key={match.match_id}
-                      match={match}
-                    />
-                    // ici: la Case à cocher pour selectioner le match
-                  ))}
-                </CompetitionCard>
-              ))
-            )
-            : (
-              <View style={styles.noData}>
-                {loading
-                  ? (<ActivityIndicator style={{ flex: 1, marginTop: '50%' }} size={150} color='papayawhip' />)
-                  : (<>
-                    <Text style={styles.noDataText}>Aucune compétition disponible pour le Moment</Text>
-                    <Text style={{ color: 'papayawhip', marginTop: 20 }}>Veuillez changer de Provider ou réessayer sous peu !!!</Text>
-                  </>)
-                }
-              </View>
-            )
-          }
-        </ScrollView>
-        */}
         {showPicker && (
           <DateTimePicker
             value={new Date(today)}

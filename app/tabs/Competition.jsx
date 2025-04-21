@@ -9,15 +9,15 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";// Pour Initaliser le startValue
-import { ShapeTemplate, HeaderV1_1, FooterV1_1, Logo, Firefox } from "../components/SvgComponents";
-import { Meeting } from "../components/FootComponents";
+import { Shape} from "../components/SvgComponents";
+import { MeetingInProg } from "../components/FootComponents";
 import ViewShot from "react-native-view-shot";
 import Share from "react-native-share";
 import { SettingsVarObject } from "./ContextComponent";
-import LogoBlanc from "../../assets/images/ZakisLogoBlanc.svg";
 const { width, height } = Dimensions.get("window");
 
-
+// utilisation de la fonction forwardRef pour permettre à un composant parent de référencer ce composant
+// et d'accéder à ses méthodes ou propriétés
 const Competition = forwardRef((props, ref) => {
 
   const startValue = useRoute();// Initialisation du startValue
@@ -55,63 +55,43 @@ const Competition = forwardRef((props, ref) => {
           height: (height * 0.93) * 5
         }}
       >
-        <ShapeTemplate />
+        <ImageBackground
+          source={imageMap[backgroundImage]}
+          style={[styles.pageBackground]}
+          resizeMode="cover"
+        >
+        <Shape
+          date={date}
+          xbet="72077071"
+          betwin="06794747"
+          style={{
+            position: "absolute",
+            zIndex: 0,
+          }}
+        />
         <ScrollView
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
+          justifyContent="space-around"
           style={styles.scrollView}
         >
-          {matchsList.map((page) => (
-            <View style={[styles.carouselPage, { width }]}>
-              {page.map((match) => (
-                <Meeting
-                  key={match_id}
+          {matchsList.map((page, index) => (
+            <View 
+              style={[styles.carouselPage, { width }]
+              }
+              key={index}
+            >
+              {page.map((match, index) => (
+                <MeetingInProg
+                  key={`${match.home_team.name}-${match.away_team.name}-${index}`}
                   match={match}
                 />
               ))}
             </View>
           ))}
         </ScrollView>
-
-        {/*
-        <ImageBackground
-          source={imageMap[backgroundImage]}//{require("../../assets/images/BG.jpg")}
-          style={styles.pageBackground}
-        >
-          <View style={styles.main}>
-            <HeaderV1_1 width="353" height="88" date={date} />
-            <ScrollView
-              horizontal
-              pagingEnabled
-              showsHorizontalScrollIndicator={false}
-              style={styles.scrollView}
-            >
-              {matchsList.map((comp, index) => (
-                <ImageBackground
-                  key={index}
-                  source={{ uri: comp.flag }}
-                  style={styles.categoryBackground}
-                  imageStyle={styles.categoryImage}
-                >
-                  <View style={[styles.carouselPage, { width }]}>
-                    <View style={styles.categoTitleCont}>
-                      <Text style={styles.categoryTitle}>{comp.competitionName}</Text>
-                    </View>
-                    {comp.matches.map((match) => (
-                      <Meeting
-                        key={`${match.home_team.name}-${match.away_team.name}`}
-                        match={match}
-                      />
-                    ))}
-                  </View>
-                </ImageBackground>
-              ))}
-            </ScrollView>
-            <FooterV1_1 width="350" height="74" number1="72077071" number2="06794747"/>
-          </View>
         </ImageBackground>
-        */}
       </ViewShot>
     </SafeAreaView>
   );
@@ -134,6 +114,18 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+    position: "absolute", 
+    zIndex: 1, 
+    width: "100%", 
+    height: "73%",
+    top: '16%', 
+    left: 0, 
+    right: 0, 
+    bottom: 0,
+    paddingHorizontal: 0,
+    marginHorizontal: 0,
+    margin: 0,
+    padding: 0,
   },
   categoryTitle: {
     fontSize: 20,

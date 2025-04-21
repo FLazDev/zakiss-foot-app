@@ -7,8 +7,46 @@ import {
   StyleSheet
 } from "react-native";
 
-// Carte de rencontre
+// Tableau Match
 export const Meeting = ({ match }) => (
+  <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-around", width: "87%", height: 72, backgroundColor: "rgba(8, 4, 250, 0.5)", borderWidth: 1, borderColor: "rgb(46, 219, 250)", borderRadius: 8, marginVertical: 2}}>
+    <View style={{ alignItems: "center",width: 125 }}>
+      <View style={{width: 50,height: 50,backgroundColor: "rgba(255, 255, 255, 1)",borderRadius: 4,padding: 4,}}>
+        <Image
+          source={{ uri: match.home_team.logo }}
+          resizeMode="contain"
+          style={{
+            width: 42,
+            height: 42,
+          }}
+        />
+      </View>
+      <Text style={{fontSize: 10,fontWeight:"bold",color: "white"}}>
+        {match.home_team.name}
+      </Text>
+    </View>
+    <View style={{padding: 4,backgroundColor: "white",borderRadius: 4}}>
+      <Text style={{fontSize: 12,fontWeight: "bold",}}>{match.time}</Text>
+    </View>
+    <View style={{ alignItems: "center",width: 125 }}>
+      <View style={{width: 50,height: 50,backgroundColor: "rgba(255, 255, 255, 1)",borderRadius: 4,padding: 4,}}>
+        <Image
+          source={{ uri: match.away_team.logo }}
+          resizeMode="contain"
+          style={{
+            width: 42,
+            height: 42,
+          }}
+        />
+      </View>
+      <Text style={{fontSize: 10,fontWeight:"bold",color: "white"}}>
+        {match.away_team.name}
+      </Text>
+    </View>
+  </View>
+);
+
+export const MeetingInProg = ({ match }) => (
   <View style={styles.meeting}>
     <View style={styles.equip}>
       <View style={styles.equipLogoBG}>
@@ -36,27 +74,12 @@ export const Meeting = ({ match }) => (
   </View>
 );
 
-// Carte de compétition
-export const CompetitionCard = ({ onPress, data }) => {
-  return (
-    <TouchableOpacity style={styles.compContainer} onPress={onPress}>
-      <Text style={styles.compTitle}>{data.name}</Text>
-      <Image source={{ uri: data.flag }} style={styles.image} />
-      <Text>
-        <Text style={styles.subtitle}>Matchs: </Text>
-        <Text style={styles.matchesCount}>{data.matches.length}</Text>
-      </Text>
-    </TouchableOpacity>
-  );
-};
-
-
 const styles = StyleSheet.create({
   meeting: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
-    width: "90%",
+    width: "87%",
     height: 72,
     backgroundColor: "rgba(8, 4, 250, 0.5)",
     borderWidth: 1,
@@ -92,42 +115,5 @@ const styles = StyleSheet.create({
   meetingHourVal: {
     fontSize: 12,
     fontWeight: "bold",
-  },
-
-  compContainer: {
-    width: 160,
-    height: 190,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 5,
-    marginBottom: 10,
-  },
-  compTitle: {
-    fontSize: 7,
-    fontWeight: 'bold',
-    color: 'red',
-    margin: 0,
-    padding: 0,
-  },
-  image: {
-    width: 150,
-    height: 120,
-    resizeMode: 'contain',
-    marginBottom: 5,
-  },
-  subtitle: {
-    fontSize: 20,
-    color: 'blue',
-    margin: 0,
-    padding: 0,
-  },
-  matchesCount: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color: 'red',
-    margin: 0,
-    padding: 0,
   },
 });
