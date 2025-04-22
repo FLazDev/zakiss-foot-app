@@ -23,6 +23,7 @@ export default function HomePage() {
   const navigation = useNavigation();// Pour naviguer vers des écran
   const route = useRoute();
   const [matchsData, setMatchsData] = useState({}); // in API: Pour stocker les données des matchs
+  const [currentID, setCurrentID] = useState([39,135,140,78,61,88,94,144,345,203,71,253,307,1,29,490,15,480,4,2,3,531,21,6,36,19,973,19,1015,9,45,143,81,137,66,96,90,147,206,347]);
   const [selectedMatches, setSelectedMatches] = useState({}); // in toggleMatchSelection(): Stocker les IDs selectionnés
   const selectedMatchsIdsList = Object.keys(selectedMatches);// Liste des IDs des matchs selectionnés
   const [programDate, setProgramDate] = useState("");
@@ -101,7 +102,7 @@ export default function HomePage() {
           setProgramDate(new Date(data.parameters.date).toLocaleDateString());
           setMatchsData(data.response.reduce((acc, match) => {
             const compId = match.league.id;
-            if (!acc[compId]) {
+            if (!acc[compId] && currentID.includes(compId)) {
               acc[compId] = {
                 league_id: match.league.id,
                 name: match.league.name,
