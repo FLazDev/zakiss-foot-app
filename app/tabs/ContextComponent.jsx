@@ -7,7 +7,7 @@ export const SettingsVarObject = createContext();
 // 2. Definition du Composant Provider de SettingsVarObject
 export function SettingsProviderComponent({ children }) {
   // Valeurs
-  const [apiChoice, setApiChoice] = useState('football-data'); // 'api-sports' ou 'football-data'
+  const [apiChoice, setApiChoice] = useState('api-sports'); // 'api-sports' ou 'football-data'
   const [apiKey, setApiKey] = useState(''); // valeur vide par défaut
   const [backgroundImage, setBackgroundImage] = useState("bg1");
     const imageMap = {
