@@ -2,6 +2,8 @@ import DeviceInfo from 'react-native-device-info';
 import NetInfo from '@react-native-community/netinfo';
 import { Dimensions } from 'react-native';
 
+
+// This function retrieves device information and network state
 export const getDeviceInfo = async () => {
   const { width, height } = Dimensions.get('window');
   const netState = await NetInfo.fetch();
@@ -16,8 +18,6 @@ export const getDeviceInfo = async () => {
     systemName: DeviceInfo.getSystemName(),
     systemVersion: DeviceInfo.getSystemVersion(),
     model: DeviceInfo.getModel(),
-    //language: locale[0]?.languageTag || "unknown",
-    //country: DeviceInfo.getDeviceCountry(),
     ip: await DeviceInfo.getIpAddress(),
     isEmulator: await DeviceInfo.isEmulator(),
     isTablet: DeviceInfo.isTablet(),

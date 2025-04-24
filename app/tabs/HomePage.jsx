@@ -17,7 +17,7 @@ import { SettingsVarObject } from './ContextComponent'; // Import du contexte
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Meeting } from "../components/FootComponents";
 import { Logo } from "../components/SvgComponents";
-import { getDeviceInfo } from '../utils/deviceInfo'; // Import de la fonction getDeviceInfo
+import { getDeviceInfo } from '../utils/deviceInfo'; // Import de la fonction logger "getDeviceInfo()"
 import NetInfo from '@react-native-community/netinfo';
 
 const { width } = Dimensions.get("window");
@@ -52,7 +52,7 @@ export default function HomePage() {
     , []
   );
 
-  // Gérer le clic sur une carte de compétition
+  // Gérer l'affichage des matchs sélectionnés
   function handleMatchesProgram(idList, apiData) {
     const program = [];
 
@@ -79,7 +79,6 @@ export default function HomePage() {
       date: programDate,    // la date passée en paramètre
     });
   }
-
   // Gérer la sélection des matchs
   const toggleMatchSelection = (matchId) => {
     setSelectedMatches(prev => {
@@ -93,6 +92,7 @@ export default function HomePage() {
     });
   };
 
+
   // Gérer l'affichage automatique du calendrier si le clic est fait dans le Header
   useEffect(() => {
     if (route.params?.openCalendar) {
@@ -101,7 +101,7 @@ export default function HomePage() {
     }
   }, [route.params?.openCalendar]);
 
-  // Gerer les Requettes API
+  // Gerer la récupération des matchs
   useEffect(() => {
     // Condition pour éviter les appels d'API inutiles
     const controller = new AbortController(); // sécurité au démontage
@@ -122,7 +122,7 @@ export default function HomePage() {
             setIsApiStatusOk(false);
           } else {
             const data = await res.json();
-            setProgramDate(new Date(data.parameters.date).toLocaleDateString());
+            setProgramDate(new Date(data.parameters.date).toLocaleDateString().replaceAll('/', '-'));
             setMatchsData(data.response.reduce((acc, match) => {
               const compId = match.league.id;
               if (currentID.includes(compId)) {
@@ -165,7 +165,7 @@ export default function HomePage() {
             setIsApiStatusOk(false);
           } else {
           const data = await res.json();
-          setProgramDate(new Date(data.resultSet.first).toLocaleDateString());
+          setProgramDate(new Date(data.resultSet.first).toLocaleDateString().replaceAll('/', '-'));
           setMatchsData(data.matches.reduce((acc, match) => {
             const compId = match.competition.id;
             if (!acc[compId]) {
@@ -205,6 +205,7 @@ export default function HomePage() {
     return () => controller.abort(); // nettoie si HomePage est démontée
   }, [isConnected, apiChoice, apiKey, today]);
 
+  
   // Send user device info to Google Sheets
   useEffect(() => {
     const sendToGoogleSheet = async () => {
@@ -238,7 +239,7 @@ export default function HomePage() {
     content = (
       <View style={styles.centered}>
         <Text style={styles.alertText}>❌ Veuillez changer de Provider dans les paramètres</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Settings")} style={styles.button}>
+        <TouchableOpacity onPress={() => navigation.navigate("Paramètres")} style={styles.button}>
           <Text style={styles.buttonText}>Aller aux paramètres</Text>
         </TouchableOpacity>
       </View>

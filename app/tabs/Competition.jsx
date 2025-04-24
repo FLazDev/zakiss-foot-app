@@ -9,7 +9,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";// Pour Initaliser le startValue
-import { Shape} from "../components/SvgComponents";
+import { ShapeZakiss } from "../components/SvgComponents";
 import { MeetingInProg } from "../components/FootComponents";
 import ViewShot from "react-native-view-shot";
 import Share from "react-native-share";
@@ -25,22 +25,25 @@ const Competition = forwardRef((props, ref) => {
   const { backgroundImage, imageMap } = useContext(SettingsVarObject);
   const viewShotRef = useRef(null);
 
-  useImperativeHandle(ref, () => ({
-    captureAndShare: async () => {
-      try {
-        const uri = await viewShotRef.current.capture();
-        const shareOptions = {
-          title: "Partager sur WhatsApp",
-          url: `file://${uri}`,
-          social: Share.Social.WHATSAPP,
-        };
-        await Share.shareSingle(shareOptions);
-      } catch (error) {
-        console.error("Erreur de capture/partage:", error);
-      }
-    },
-
-  }));
+  useImperativeHandle(
+    ref,
+    () => ({
+      // Méthode pour capturer l'écran et partager l'image
+      captureAndShare: async () => {
+        try {
+          const uri = await viewShotRef.current.capture();
+          const shareOptions = {
+            title: "Partager sur WhatsApp",
+            url: `file://${uri}`,
+            social: Share.Social.WHATSAPP,
+          };
+          await Share.shareSingle(shareOptions);
+        } catch (error) {
+          console.error("Erreur de capture/partage:", error);
+        }
+      },
+    })
+  );
 
   return (
     <SafeAreaView style={styles.safeAV}>
@@ -60,37 +63,37 @@ const Competition = forwardRef((props, ref) => {
           style={[styles.pageBackground]}
           resizeMode="cover"
         >
-        <Shape
-          date={date}
-          xbet="72077071"
-          betwin="06794747"
-          style={{
-            position: "absolute",
-            zIndex: 0,
-          }}
-        />
-        <ScrollView
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          justifyContent="space-around"
-          style={styles.scrollView}
-        >
-          {matchsList.map((page, index) => (
-            <View 
-              style={[styles.carouselPage, { width }]
-              }
-              key={index}
-            >
-              {page.map((match, index) => (
-                <MeetingInProg
-                  key={`${match.home_team.name}-${match.away_team.name}-${index}`}
-                  match={match}
-                />
-              ))}
-            </View>
-          ))}
-        </ScrollView>
+          <ShapeZakiss
+            date={date}
+            xbet="72077071" // à recuperer dans le contexte
+            betwin="06794747" // à recuperer dans le contexte
+            style={{
+              position: "absolute",
+              zIndex: 0,
+            }}
+          />
+          <ScrollView
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            justifyContent="space-around"
+            style={styles.scrollView}
+          >
+            {matchsList.map((page, index) => (
+              <View
+                style={[styles.carouselPage, { width }]
+                }
+                key={index}
+              >
+                {page.map((match, index) => (
+                  <MeetingInProg
+                    key={`${match.home_team.name}-${match.away_team.name}-${index}`}
+                    match={match}
+                  />
+                ))}
+              </View>
+            ))}
+          </ScrollView>
         </ImageBackground>
       </ViewShot>
     </SafeAreaView>
@@ -114,13 +117,13 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    position: "absolute", 
-    zIndex: 1, 
-    width: "100%", 
+    position: "absolute",
+    zIndex: 1,
+    width: "100%",
     height: "73%",
-    top: '16%', 
-    left: 0, 
-    right: 0, 
+    top: '16%',
+    left: 0,
+    right: 0,
     bottom: 0,
     paddingHorizontal: 0,
     marginHorizontal: 0,

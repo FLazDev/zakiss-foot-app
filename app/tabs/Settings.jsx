@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, ScrollView, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SettingsVarObject } from './ContextComponent';
 import LinearGradient from 'react-native-linear-gradient';
@@ -21,7 +21,7 @@ export default function Settings() {
     >
       <ScrollView contentContainerStyle={styles.content}>
 
-        <Text style={styles.pageTitle}>Parametres</Text>
+        <Text style={styles.pageTitle}>Paramètres</Text>
 
         <LinearGradient
           colors={['rgb(255, 255, 255)', 'rgb(223, 36, 198)']}
